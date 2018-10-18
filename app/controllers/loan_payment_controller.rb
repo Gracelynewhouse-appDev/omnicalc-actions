@@ -10,9 +10,13 @@ class LoanPaymentController < ApplicationController
     # The number of years the user input is in the integer @years.
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
-
-    @monthly_payment = "Replace this string with your answer"
-
+    r = @apr/12
+    n = @years*12
+    if r ==0  then
+      @monthly_payment = @principal/(@years*12)
+    else 
+      @monthly_payment = (r*@principal*((1+r)**n))/(((1+r)**n)-1)
+    end 
     # ================================================================================
     # Your code goes above.
     # ================================================================================

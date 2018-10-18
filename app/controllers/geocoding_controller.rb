@@ -11,10 +11,15 @@ class GeocodingController < ApplicationController
     # A sanitized version of the street address, with spaces and other illegal
     #   characters removed, is in the string sanitized_street_address.
     # ==========================================================================
+    
+    url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{sanitized_street_address}&key=AIzaSyA5qwIlcKjijP_Ptmv46mk4cCjuWhSzS78" 
+    raw_data = open(url).read
+    parsed_data = JSON.parse(raw_data)
+    f = parsed_data.fetch("results").at(0)
+    
+    @latitude = f.fetch("geometry").fetch("location").fetch("lat")
 
-    @latitude = "Replace this string with your answer"
-
-    @longitude = "Replace this string with your answer"
+    @longitude = f.fetch("geometry").fetch("location").fetch("lng")
 
     render("geocoding_templates/street_to_coords.html.erb")
   end

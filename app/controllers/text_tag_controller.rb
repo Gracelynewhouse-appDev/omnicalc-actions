@@ -5,8 +5,12 @@ class TextTagController < ApplicationController
     # ================================================================================
     # Your code goes below.
     # ================================================================================
-
-    @tags = "Replace this string with your answer"
+    
+    input = @text
+    client = Algorithmia.client('simrLmreRHYgtHu8wE11YIshqkK1')
+    algo = client.algo('nlp/AutoTag/1.0.1')
+    algo.pipe(input).result
+    @tags = algo.pipe(input).result
 
     # ================================================================================
     # Your code goes above.
